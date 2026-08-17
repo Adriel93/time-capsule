@@ -1,0 +1,16 @@
+{
+  "name": "efemerides-cristianas",
+  "version": "1.0.0",
+  "description": "API y panel ligero para efemérides cristianas históricas",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.4.1",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "multer": "^2.0.2",
+    "sharp": "^0.35.3"
+  }
+}

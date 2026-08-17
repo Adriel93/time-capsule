@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Panel — Efemérides</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<main class="container admin-container">
+  <section id="login" class="card login-card">
+    <h1>Panel de administración</h1>
+    <form id="loginForm">
+      <label>Contraseña
+        <input id="password" type="password" required autocomplete="current-password">
+      </label>
+      <button>Entrar</button>
+      <p id="loginMsg" class="error" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="panel" hidden>
+    <header class="topbar admin-header">
+      <div>
+        <h1>Efemérides</h1>
+        <p>Administración</p> 
+      </div>
+      <button id="logout" class="secondary" type="button">Salir</button>
+    </header>
+
+    <div class="admin-grid">
+      <section class="card form-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">Registro</p>
+            <h2 id="formTitle">Nueva efeméride</h2>
+          </div>
+        </div>
+
+        <form id="eventForm" enctype="multipart/form-data">
+          <input type="hidden" id="id">
+          <div class="date-grid">
+            <label>Día<input id="dia" type="number" min="1" max="31" required></label>
+            <label>Mes<input id="mes" type="number" min="1" max="12" required></label>
+            <label>Año histórico<input id="anno" type="number" min="1" max="9999"></label>
+          </div>
+          <label>Título<input id="titulo" maxlength="200" required></label>
+          <label>Imagen
+            <small>JPG, PNG, WebP o GIF; se convertirá a WebP</small>
+            <input id="imagen" type="file" accept="image/jpeg,image/png,image/webp,image/gif">
+          </label>
+          <label>Resumen<textarea id="resumen" rows="6" required></textarea></label>
+          <div class="actions">
+            <button id="submitButton" type="submit">Guardar</button>
+            <button id="cancelEdit" type="button" class="secondary" hidden>Cancelar edición</button>
+            <button id="clearForm" type="button" class="ghost">Limpiar</button>
+          </div>
+          <p id="formMsg" class="form-message" role="status"></p>
+        </form>
+      </section>
+
+      <section class="card calendar-card">
+        <div class="calendar-toolbar">
+          <button id="previousMonth" class="icon-button" type="button" aria-label="Mes anterior" title="Mes anterior">‹</button>
+          <h2 id="calendarTitle"></h2>
+          <button id="nextMonth" class="icon-button" type="button" aria-label="Mes siguiente" title="Mes siguiente">›</button>
+        </div>
+        <div class="calendar-weekdays" aria-hidden="true">
+          <span>Lun</span><span>Mar</span><span>Mié</span><span>Jue</span><span>Vie</span><span>Sáb</span><span>Dom</span>
+        </div>
+        <div id="calendar" class="calendar-grid" role="grid" aria-labelledby="calendarTitle"></div>
+        <p class="calendar-help"><span class="event-dot"></span> Día con efemérides</p>
+      </section>
+    </div>
+
+    <section class="card selected-card" aria-live="polite">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Día seleccionado</p>
+          <h2 id="selectedDateTitle"></h2>
+        </div>
+        <span id="selectedCount" class="count-badge"></span>
+      </div>
+      <div id="dayEvents" class="compact-list"></div>
+    </section>
+
+    <section class="recent-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Actividad</p>
+          <h2>Últimos registros</h2>
+        </div>
+      </div>
+      <div id="recentEvents" class="recent-list"></div>
+    </section>
+  </section>
+</main>
+
+<div id="viewModal" class="modal" hidden>
+  <div class="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <button id="modalCloseIcon" class="modal-close-icon" type="button" aria-label="Cerrar" title="Cerrar">×</button>
+    <div class="modal-content">
+      <p id="modalDate" class="modal-date"></p>
+      <h2 id="modalTitle" class="modal-title"></h2>
+      <div id="modalImageContainer" class="modal-image-container"></div>
+      <p id="modalSummary" class="modal-summary"></p>
+    </div>
+    <div class="modal-footer">
+      <button id="modalCloseButton" type="button" class="secondary">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script src="/admin.js"></script>
+</body>
+</html>

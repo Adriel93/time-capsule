@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Documentación de la API pública de Efemérides Cristianas.">
+  <title>API de Efemérides Cristianas</title>
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body class="api-page">
+  <header class="api-hero">
+    <div class="api-shell">
+      <nav class="api-nav" aria-label="Navegación principal">
+        <a class="api-brand" href="/">Efemérides API</a>
+        <a class="api-admin-link" href="/admin">Administración</a>
+      </nav>
+      <div class="api-intro">
+        <span class="api-status"><i></i> API pública</span>
+        <h1>Efemérides Cristianas</h1>
+        <p>Consulta acontecimientos históricos por fecha o año y accede a sus imágenes mediante una API HTTP sencilla con respuestas JSON.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="api-shell api-docs">
+    <aside class="api-summary" aria-label="Información rápida">
+      <div>
+        <span>Formato</span>
+        <strong>JSON</strong>
+      </div>
+      <div>
+        <span>Autenticación</span>
+        <strong>No requerida</strong>
+      </div>
+      <div>
+        <span>Ruta base</span>
+        <strong>/api/efemerides</strong>
+      </div>
+    </aside>
+
+    <section class="api-section" aria-labelledby="endpoints-title">
+      <div class="api-section-heading">
+        <span>Referencia</span>
+        <h2 id="endpoints-title">Endpoints</h2>
+        <p>Los parámetros <code>:mes</code> y <code>:dia</code> admiten valores con o sin cero inicial.</p>
+      </div>
+
+      <div class="endpoint-list">
+        <article class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method">GET</span>
+            <code>/api/efemerides/hoy</code>
+          </div>
+          <p>Devuelve todas las efemérides correspondientes al día y mes actuales, independientemente del año histórico.</p>
+          <div class="endpoint-example">
+            <span>Ejemplo de URL</span>
+            <code>http://localhost:3000/api/efemerides/hoy</code>
+          </div>
+          <details>
+            <summary>Ejemplo de respuesta JSON</summary>
+            <pre><code>{
+  "fecha": "14-08",
+  "total": 1,
+  "efemerides": [
+    {
+      "id": 18,
+      "fecha_dia": 14,
+      "fecha_mes": 8,
+      "fecha_anno": 1552,
+      "titulo": "Acontecimiento histórico",
+      "resumen": "Descripción de la efeméride.",
+      "imagen_url": "/api/efemerides/18/imagen"
+    }
+  ]
+}</code></pre>
+          </details>
+        </article>
+
+        <article class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method">GET</span>
+            <code>/api/efemerides/:mes/:dia</code>
+          </div>
+          <p>Consulta todas las efemérides de un día y mes concretos, sin filtrar por año.</p>
+          <div class="endpoint-example">
+            <span>Ejemplo de URL</span>
+            <code>http://localhost:3000/api/efemerides/08/12</code>
+          </div>
+          <details>
+            <summary>Ejemplo de respuesta JSON</summary>
+            <pre><code>{
+  "fecha": "12-08",
+  "total": 2,
+  "efemerides": [
+    { "id": 7, "fecha_dia": 12, "fecha_mes": 8, "fecha_anno": 1515, "titulo": "Primera efeméride", "resumen": "...", "imagen_url": "/api/efemerides/7/imagen" },
+    { "id": 9, "fecha_dia": 12, "fecha_mes": 8, "fecha_anno": 1546, "titulo": "Segunda efeméride", "resumen": "...", "imagen_url": null }
+  ]
+}</code></pre>
+          </details>
+        </article>
+
+        <article class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method">GET</span>
+            <code>/api/efemerides/anno/:anno</code>
+          </div>
+          <p>Devuelve todas las efemérides registradas para un año histórico concreto, ordenadas por mes y día.</p>
+          <div class="endpoint-example">
+            <span>Ejemplo de URL</span>
+            <code>http://localhost:3000/api/efemerides/anno/1515</code>
+          </div>
+          <details>
+            <summary>Ejemplo de respuesta JSON</summary>
+            <pre><code>{
+  "anno": 1515,
+  "total": 1,
+  "efemerides": [
+    { "id": 7, "fecha_dia": 12, "fecha_mes": 8, "fecha_anno": 1515, "titulo": "Acontecimiento de 1515", "resumen": "...", "imagen_url": "/api/efemerides/7/imagen" }
+  ]
+}</code></pre>
+          </details>
+        </article>
+
+        <article class="endpoint-card endpoint-featured">
+          <div class="endpoint-header">
+            <span class="method">GET</span>
+            <code>/api/efemerides/:mes/:dia/:anno</code>
+          </div>
+          <p>Filtra simultáneamente por mes, día y año para obtener únicamente las coincidencias de una fecha histórica específica.</p>
+          <div class="endpoint-example">
+            <span>Ejemplo de URL</span>
+            <code>http://localhost:3000/api/efemerides/08/12/1515</code>
+          </div>
+          <details open>
+            <summary>Ejemplo de respuesta JSON</summary>
+            <pre><code>{
+  "fecha": "12-08-1515",
+  "total": 1,
+  "efemerides": [
+    {
+      "id": 7,
+      "fecha_dia": 12,
+      "fecha_mes": 8,
+      "fecha_anno": 1515,
+      "titulo": "Acontecimiento de 1515",
+      "resumen": "Descripción completa.",
+      "imagen_url": "/api/efemerides/7/imagen",
+      "creado_en": "2026-08-14T12:00:00.000Z",
+      "actualizado_en": "2026-08-14T12:00:00.000Z"
+    }
+  ]
+}</code></pre>
+          </details>
+        </article>
+
+        <article class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method">GET</span>
+            <code>/api/efemerides/:id/imagen</code>
+          </div>
+          <p>Devuelve el archivo WebP almacenado para una efeméride. Responde con <code>image/webp</code>, no con JSON.</p>
+          <div class="endpoint-example">
+            <span>Ejemplo de URL</span>
+            <code>http://localhost:3000/api/efemerides/7/imagen</code>
+          </div>
+          <details>
+            <summary>Ejemplo de respuesta</summary>
+            <pre><code>HTTP/1.1 200 OK
+Content-Type: image/webp
+Cache-Control: public, max-age=86400
+
+[contenido binario de la imagen]</code></pre>
+          </details>
+        </article>
+
+        <article class="endpoint-card">
+          <div class="endpoint-header">
+            <span class="method">GET</span>
+            <code>/api/efemerides</code>
+          </div>
+          <p>Listado general con filtros opcionales por <code>mes</code>, <code>dia</code>, <code>anno</code> y <code>limite</code>.</p>
+          <div class="endpoint-example">
+            <span>Ejemplo de URL</span>
+            <code>http://localhost:3000/api/efemerides?mes=8&amp;dia=12&amp;limite=10</code>
+          </div>
+          <details>
+            <summary>Ejemplo de respuesta JSON</summary>
+            <pre><code>{
+  "total": 2,
+  "efemerides": [
+    { "id": 7, "fecha_dia": 12, "fecha_mes": 8, "fecha_anno": 1515, "titulo": "Primera efeméride", "resumen": "...", "imagen_url": "/api/efemerides/7/imagen" }
+  ]
+}</code></pre>
+          </details>
+        </article>
+      </div>
+    </section>
+
+    <section class="api-section fields-section" aria-labelledby="fields-title">
+      <div class="api-section-heading">
+        <span>Esquema</span>
+        <h2 id="fields-title">Campos principales</h2>
+      </div>
+      <div class="fields-table" role="table" aria-label="Campos de una efeméride">
+        <div class="fields-row fields-head" role="row"><span>Campo</span><span>Descripción</span></div>
+        <div class="fields-row" role="row"><code>id</code><span>Identificador único de la efeméride.</span></div>
+        <div class="fields-row" role="row"><code>fecha_dia</code><span>Día del mes, entre 1 y 31.</span></div>
+        <div class="fields-row" role="row"><code>fecha_mes</code><span>Mes, entre 1 y 12.</span></div>
+        <div class="fields-row" role="row"><code>fecha_anno</code><span>Año histórico; puede ser <code>null</code> si no está definido.</span></div>
+        <div class="fields-row" role="row"><code>titulo</code><span>Nombre breve del acontecimiento.</span></div>
+        <div class="fields-row" role="row"><code>resumen</code><span>Descripción completa de la efeméride.</span></div>
+        <div class="fields-row" role="row"><code>imagen_url</code><span>Ruta pública de la imagen WebP o <code>null</code> si no existe.</span></div>
+        <div class="fields-row" role="row"><code>creado_en</code><span>Fecha ISO 8601 de creación del registro.</span></div>
+        <div class="fields-row" role="row"><code>actualizado_en</code><span>Fecha ISO 8601 de la última modificación.</span></div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="api-footer">
+    <div class="api-shell">API de Efemérides Cristianas · Respuestas UTF-8</div>
+  </footer>
+</body>
+</html>
