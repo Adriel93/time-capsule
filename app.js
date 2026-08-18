@@ -17,10 +17,10 @@ if (!ADMIN_PASSWORD || !COOKIE_SECRET) {
   throw new Error('Faltan ADMIN_PASSWORD o COOKIE_SECRET en .env');
 }
 
-const databaseDir = path.join(__dirname, 'database');
-fs.mkdirSync(databaseDir, { recursive: true });
+const dbPath = process.env.DB_PATH || path.join(__dirname, 'database', 'efemerides.db');
+fs.mkdirSync(path.dirname(dbPath), { recursive: true });
 
-const db = new Database(path.join(databaseDir, 'efemerides.db'));
+const db = new Database(dbPath);
 db.pragma('journal_mode = WAL');
 db.exec(`
   CREATE TABLE IF NOT EXISTS efemerides (
